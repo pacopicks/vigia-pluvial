@@ -1,0 +1,178 @@
+@import "tailwindcss";
+@import "tw-animate-css";
+
+@custom-variant dark (&:is(.dark *));
+
+/* Tokens de shadcn. La app es oscura (clase .dark en <html>), con un azul agua como primario. */
+:root {
+  --radius: 0.625rem;
+  --background: #ffffff;
+  --foreground: #0f2730;
+  --card: #ffffff;
+  --card-foreground: #0f2730;
+  --popover: #ffffff;
+  --popover-foreground: #0f2730;
+  --primary: #0d7899;
+  --primary-foreground: #ffffff;
+  --secondary: #eef3f4;
+  --secondary-foreground: #0f2730;
+  --muted: #eef3f4;
+  --muted-foreground: #5d7681;
+  --accent: #e3edf0;
+  --accent-foreground: #0f2730;
+  --destructive: #c2332c;
+  --destructive-foreground: oklch(1 0 0);
+  --border: #d6e1e4;
+  --input: #d6e1e4;
+  --ring: #0d7899;
+}
+
+.dark {
+  --background: #04090b;
+  --foreground: #e2edf0;
+  --card: #0b171b;
+  --card-foreground: #e2edf0;
+  --popover: #0b171b;
+  --popover-foreground: #e2edf0;
+  --primary: #4cb6d9;
+  --primary-foreground: #04121a;
+  --secondary: #12232a;
+  --secondary-foreground: #e2edf0;
+  --muted: #12232a;
+  --muted-foreground: #8aa1a9;
+  --accent: #163039;
+  --accent-foreground: #e2edf0;
+  --destructive: #f0625a;
+  --destructive-foreground: oklch(1 0 0);
+  --border: #1b2f37;
+  --input: #1b2f37;
+  --ring: #4cb6d9;
+
+  /* Colores de estado que lee alert-1 (variantes success / warning / destructive / info) */
+  --color-success: #55c084;
+  --color-success-soft: #0f2a1b;
+  --color-success-alpha: #1f5a37;
+  --color-success-foreground: #55c084;
+  --color-warning: #e2b53a;
+  --color-warning-soft: #2e250a;
+  --color-warning-alpha: #6b5413;
+  --color-warning-foreground: #e2b53a;
+  --color-destructive-soft: #3a1311;
+  --color-destructive-alpha: #7a2621;
+  --color-info: #4cb6d9;
+  --color-info-soft: #0b2530;
+  --color-info-alpha: #1b4f63;
+  --color-info-foreground: #4cb6d9;
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+}
+
+/* Paleta propia: niveles de alerta y agua */
+@theme {
+  --color-ok: #55c084;
+  --color-warn: #e2b53a;
+  --color-serious: #f08a43;
+  --color-crit: #f0625a;
+  --color-agua: #4cb6d9;
+  --color-agua-2: #2a7fae;
+  --font-sans: "IBM Plex Sans", "Segoe UI", system-ui, sans-serif;
+  --font-display: "Archivo", "Segoe UI", system-ui, sans-serif;
+  --font-mono: "IBM Plex Mono", ui-monospace, Consolas, monospace;
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  html {
+    scroll-behavior: smooth;
+  }
+  body {
+    @apply bg-background text-foreground font-sans antialiased;
+  }
+  h1, h2, h3 {
+    @apply font-display;
+    text-wrap: balance;
+  }
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+@keyframes slideDown {
+  from { opacity: 0; transform: translateY(-10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+@keyframes wave {
+  to { transform: translateX(25%); }
+}
+.water-wave::before {
+  content: "";
+  position: absolute;
+  left: -50%;
+  top: -6px;
+  width: 200%;
+  height: 12px;
+  border-radius: 40%;
+  background: var(--color-agua);
+  animation: wave 4s linear infinite;
+}
+
+/* Leaflet dentro del tema oscuro */
+.leaflet-container {
+  background: #0b171b;
+  font-family: var(--font-sans);
+}
+.map-dark .leaflet-tile-pane {
+  filter: invert(1) hue-rotate(180deg) brightness(0.9) contrast(0.9) saturate(0.6);
+}
+.leaflet-popup-content-wrapper,
+.leaflet-popup-tip {
+  background: var(--card);
+  color: var(--card-foreground);
+}
+.leaflet-popup-content h3 {
+  font-weight: 700;
+  margin: 0 0 4px;
+}
+.leaflet-popup-content p {
+  margin: 0;
+}
+.leaflet-control-attribution {
+  background: rgba(4, 9, 11, 0.7) !important;
+  color: #8aa1a9 !important;
+}
+.leaflet-control-attribution a {
+  color: #4cb6d9 !important;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  .water-wave::before { animation: none; }
+  * { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; }
+}
